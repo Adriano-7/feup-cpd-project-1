@@ -1,54 +1,55 @@
-# CPU Performance Analysis: Matrix Multiplication Algorithms
+# CPU Performance Analysis
 
-## Project Overview
+> **Project**
+> <br />
+> Course Unit: [Computação Paralela e Distribuída](https://sigarra.up.pt/feup/pt/ucurr_geral.ficha_uc_view?pv_ocorrencia_id=520333)
+> <br />
+> Course: Informatics and Computing Engineering
+> <br />
+> Faculty: **FEUP** (Faculty of Engineering of the University of Porto)
+> <br />
+> Report: [Full Project Report](./doc/report.pdf)
+> <br />
+> Project evaluation: **16**/20
 
-This project analyzes the impact of various matrix multiplication algorithms on CPU performance, focusing on processing large datasets. The study is divided into two parts, evaluating performance metrics in both single-core and multi-core environments.
+---
 
-## Algorithms Implemented
+## Project Goals
 
-### Single-Core Variants
-1. Column Matrix Multiplication
-2. Line Matrix Multiplication
-3. Block Matrix Multiplication
+This project provides an analysis of the impact of various matrix multiplication algorithms on CPU performance. By implementing several variants in both **C++** and **Julia**, we explore how memory access patterns, cache efficiency, and multi-core parallelization strategies influence execution time.
 
-### Multi-Core Variants
-1. OpenMP Parallelized Line Multiplication (Outer loop parallelization)
-2. OpenMP Parallelized Line Multiplication with Nested Parallelism
+## Technical Approach
 
-## Languages Used
-- C++
-- Julia
+### 1. Single-Core Variants
+We implemented and tested three fundamental algorithms:
+*   **Column Multiplication:** The conventional approach, useful as a baseline.
+*   **Line Multiplication:** Reorders nested loops to optimize data locality, significantly reducing cache misses compared to the column-based approach.
+*   **Block Multiplication:** Further optimizes memory management by processing sub-matrices, effectively staying within CPU cache capacities for larger datasets.
+
+### 2. Multi-Core Variants (OpenMP)
+We developed two parallel strategies to maximize throughput on multi-core systems:
+*   **Implementation 1 (Outer Loop Parallelization):** Uses `#pragma omp parallel for` to distribute iterations of the outer loop across available threads.
+*   **Implementation 2 (Nested Parallelism):** Establishes a parallel region and targets the innermost loop for parallel execution. Our analysis shows how this strategy, while sophisticated, experiences diminishing returns due to overhead on larger matrices.
 
 ## Performance Metrics
-- Execution Time
-- Cache Misses (L1 and L2)
-- MFlops (for multi-core variants)
-- Speedup (for multi-core variants)
-- Efficiency (for multi-core variants)
 
-## Key Findings
+To ensure accuracy, we leveraged the **PAPI API** to track hardware performance counters.
 
-1. Line matrix multiplication consistently outperforms column matrix multiplication in terms of execution time and cache efficiency.
-2. Block matrix multiplication shows superior performance compared to line multiplication, especially for larger matrices.
-3. Parallel implementations demonstrate improved performance over sequential counterparts, with varying efficacy between different parallelization strategies.
+| Metric | Purpose |
+| :--- | :--- |
+| **Execution Time** | Primary indicator of performance efficiency. |
+| **L1/L2 Cache Misses** | Tracks cache locality and memory hierarchy efficiency. |
+| **MFlops** | Measures computational throughput. |
+| **Speedup/Efficiency** | Evaluates the scalability of our multi-core implementations. |
 
-## Tools Used
-- PAPI API for gathering CPU performance metrics
-- OpenMP for parallelization
+## Project Structure
+*   `/src`: Contains the source code for the C++ and Julia implementations.
+*   `/doc`: Contains the detailed performance results in CSV format and the final project report.
 
-## Project Team
-- Adriano Machado (up202105352@up.pt)
-- André Rodrigues (up202108721@up.pt)
-- Daniel Dória (up202108808@up.pt)
+## Team
+- **Adriano Machado** (up202105352)
+- **André Rodrigues** (up202108721)
+- **Daniel Dória** (up202108808)
 
-## Course Information
-- Course: Informatics and Computing Engineering
-- Institution: FEUP
-- Class: 3LEIC10
-- Group: 11
-
-## Conclusions
-
-This project highlights the critical role of memory management in program efficiency. It demonstrates how optimizing data access patterns and understanding hardware configurations can significantly enhance performance, even without relying on parallel computing.
-
-For more detailed information, please refer to the full project [report](docs/report.pdf).
+---
+*Course: 3LEIC10 | Group 11*
